@@ -1,0 +1,22 @@
+@startuml(id=TelemetryLogging)
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+
+title TelemetryLogging - Containers
+caption Telem Logs
+
+System_Boundary(1_boundary, TelemetryLogging) {
+  Container(3, "CaptureStorage", "Azure - Storage Accounts", "Event Hub Capture Storage")
+  Container(2, "EventHub", "Azure Event Hub, Kafka, AMQP", "Entry point into telemetry logging")
+  Container(6, "LoggingStorage", "", "Additional storage for log data that's been processed")
+  Container(4, "PowerBI", "", "")
+  Container(5, "StreamAnalytics", "Azure Stream Analytics", "Processes incoming data for further use in downstream visualizations")
+}
+Rel_D(2, 3, "stores incoming events in", "")
+Rel_D(5, 2, "Pulls data from", "")
+Rel_D(5, 6, "Exports ETL data to", "")
+Rel_D(5, 4, "Exports ETL data to", "")
+@enduml
